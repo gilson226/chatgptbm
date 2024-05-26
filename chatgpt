@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Military Legal GPT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .command {
+            margin-bottom: 20px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Military Legal GPT</h1>
+        <div class="command">
+            <h2>/start</h2>
+            <button onclick="sendStart()">Start</button>
+        </div>
+        <div class="command">
+            <h2>/help</h2>
+            <input type="text" id="help-question" placeholder="Pergunta (opcional)">
+            <button onclick="sendHelp()">Help</button>
+        </div>
+        <div class="command">
+            <h2>/fix</h2>
+            <textarea id="fix-input" rows="3" placeholder="Digite o texto para corrigir"></textarea>
+            <button onclick="sendFix()">Fix</button>
+        </div>
+        <div class="command">
+            <h2>/quick_fix</h2>
+            <textarea id="quick-fix-input" rows="3" placeholder="Digite o texto para solução rápida"></textarea>
+            <button onclick="sendQuickFix()">Quick Fix</button>
+        </div>
+        <div class="command">
+            <h2>/explain</h2>
+            <textarea id="explain-input" rows="3" placeholder="Digite o termo ou conceito para explicar"></textarea>
+            <button onclick="sendExplain()">Explain</button>
+        </div>
+        <div class="command">
+            <h2>/review</h2>
+            <textarea id="review-input" rows="3" placeholder="Digite o documento para revisar"></textarea>
+            <button onclick="sendReview()">Review</button>
+        </div>
+        <div class="command">
+            <h2>/search</h2>
+            <textarea id="search-input" rows="3" placeholder="Digite o termo para pesquisar"></textarea>
+            <button onclick="sendSearch()">Search</button>
+        </div>
+        <div class="command">
+            <h2>/read</h2>
+            <textarea id="read-input" rows="3" placeholder="Digite as URLs para ler (separadas por vírgula)"></textarea>
+            <button onclick="sendRead()">Read</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        function displayResult(data) {
+            document.getElementById('result').innerText = data.message;
+        }
+
+        async function sendStart() {
+            const response = await fetch('/start');
+            const data = await response.json();
+            displayResult(data);
+        }
+
+        async function sendHelp() {
+            const question = document.getElementById('help-question').value;
+            const response = await fetch(`/help${question ? '?any_question=' + question : ''}`);
+            const data = await response.json();
+            displayResult(data);
+        }
+
+        async function sendFix() {
+            const text = document.getElementById('fix-input').value;
+            const response = await fetch('/fix', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ any: text })
+            });
+            const data = await response.json();
+            displayResult(data);
+        }
+
+        async function sendQuickFix() {
+            const text = document.getElementById('quick-fix-input').value;
+            const response = await fetch('/quick_fix', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ any: text })
+            });
+            const data = await response.json();
+            displayResult(data);
+        }
+
+        async function sendExplain() {
+            const text = document.getElementById('explain-input').value;
+            const response = await fetch('/explain', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ any: text })
+            });
+            const data = await response.json();
+            displayResult(data);
+        }
+
+        async function sendReview() {
+            const text = document.getElementById('review-input').value;
+            const response = await fetch('/review', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ any: text })
+            });
+            const data = await response.json();
+            displayResult(data);
+        }
+
+        async function sendSearch() {
+            const text = document.getElementById('search-input').value;
+            const response = await fetch('/search', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ any: text })
+            });
+            const data = await response.json();
+            displayResult(data);
+        }
+
+        async function sendRead() {
+            const text = document.getElementById('read-input').value;
+            const urls = text.split(',').map(url => url.trim());
+            const response = await fetch('/read', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ urls
